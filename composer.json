@@ -1,0 +1,26 @@
+{
+    "name": "webfactory/content-mapping-sourceadapter-doctrine",
+    "description": "SourceAdapter for Doctrine entities inside the webfactory/content-mapping mini framework",
+    "minimum-stability": "stable",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "webfactory GmbH",
+            "email": "info@webfactory.de",
+            "homepage": "http://www.webfactory.de",
+            "role": "Developer"
+        }
+    ],
+
+    "require": {
+        "php": ">=5.3.0",
+        "webfactory/content-mapping": "^3.0",
+        "doctrine/orm": "^2.1"
+    },
+
+    "autoload": {
+        "psr-4": {
+            "Webfactory\\ContentMapping\\SourceAdapter\\Doctrine\\": "src"
+        }
+    }
+}
