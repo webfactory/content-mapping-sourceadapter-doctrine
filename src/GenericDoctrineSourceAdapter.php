@@ -33,7 +33,7 @@ final class GenericDoctrineSourceAdapter implements SourceAdapter
      * @param EntityRepository $repository to query
      * @param string $repositoryMethod Which returns a Collection of all objects to map, ordered by their ascending IDs.
      */
-    public function __construct($repository, $repositoryMethod)
+    public function __construct($repository, $repositoryMethod = 'findForContentMapping')
     {
         $this->repository = $repository;
         $this->repositoryMethod = $repositoryMethod;
