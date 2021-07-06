@@ -52,10 +52,6 @@ final class GenericDoctrineSourceAdapter implements SourceAdapter
             );
         }
 
-        usort($entities, function($a, $b) {
-            return $a->getId() <=> $b->getId();
-        });
-
         /** @var Collection mixed[] */
         return new \ArrayIterator($entities);
     }
