@@ -52,6 +52,17 @@ final class GenericDoctrineSourceAdapter implements SourceAdapter
             );
         }
 
+        if (!$entities[0] instanceof MappableEntityInterface) {
+            trigger_error('Mapping objects not implementing the MappableEntityInterface is deprecated and will
+            not be possible as of v2.0.0', E_USER_DEPRECATED);
+        }
+
+        if (method_exists($entities[0], 'getId')) { // BC Layer
+            usort($entities, function ($a, $b) {
+                return $a->getId() <=> $b->getId();
+            });
+        }
+
         /** @var Collection mixed[] */
         return new \ArrayIterator($entities);
     }
