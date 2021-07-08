@@ -45,14 +45,11 @@ final class GenericDoctrineSourceAdapter implements SourceAdapter
     public function getObjectsOrderedById()
     {
         $entities = $this->repository->{$this->repositoryMethod}();
-        if (is_array($entities) === false) {
-            throw new \RuntimeException(
-                'The result of ' . get_class($this->repository) . '->' . $this->repositoryMethod . '() is no array, '
-                . 'which it has to be if you wish to use ' . __CLASS__
-            );
+
+        if (is_array($entities)) {
+            return new \ArrayIterator($entities);
         }
 
-        /** @var Collection mixed[] */
-        return new \ArrayIterator($entities);
+        return $entities;
     }
 }
