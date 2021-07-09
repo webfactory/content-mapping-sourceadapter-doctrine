@@ -50,6 +50,10 @@ final class GenericDoctrineSourceAdapter implements SourceAdapter
             return new \ArrayIterator($entities);
         }
 
+        if (!is_iterable($entities)) {
+            throw new \RuntimeException('The repository method must return either an array or iterable');
+        }
+
         return $entities;
     }
 }
