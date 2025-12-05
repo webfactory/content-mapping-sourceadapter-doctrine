@@ -8,50 +8,37 @@
 
 namespace Webfactory\ContentMapping\SourceAdapter\Doctrine;
 
-use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\EntityRepository;
+use ArrayIterator;
+use Doctrine\Persistence\ObjectRepository;
+use RuntimeException;
 use Webfactory\ContentMapping\SourceAdapter;
 
 /**
  * Implementation for Doctrine as a source system.
- *
- * @final by default.
  */
 final class GenericDoctrineSourceAdapter implements SourceAdapter
 {
     /**
-     * @var EntityRepository
+     * @param non-empty-string $repositoryMethod
+     *
+     * @psalm-assert callable([$repository, $repositoryMethod]): iterable
      */
-    private $repository;
-
-    /**
-     * @var string
-     */
-    private $repositoryMethod;
-
-    /**
-     * @param EntityRepository $repository to query
-     * @param string $repositoryMethod Which returns a Collection of all objects to map, ordered by their ascending IDs.
-     */
-    public function __construct($repository, $repositoryMethod = 'findForContentMapping')
-    {
-        $this->repository = $repository;
-        $this->repositoryMethod = $repositoryMethod;
+    public function __construct(
+        private readonly ObjectRepository $repository,
+        private readonly string $repositoryMethod = 'findForContentMapping'
+    ) {
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getObjectsOrderedById()
+    public function getObjectsOrderedById(): iterable
     {
         $entities = $this->repository->{$this->repositoryMethod}();
 
         if (is_array($entities)) {
-            return new \ArrayIterator($entities);
+            return new ArrayIterator($entities);
         }
 
         if (!is_iterable($entities)) {
-            throw new \RuntimeException('The repository method must return either an array or iterable');
+            throw new RuntimeException('The repository method must return either an array or iterable');
         }
 
         return $entities;
